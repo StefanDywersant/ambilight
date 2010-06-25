@@ -5,7 +5,7 @@
 # E-mail   : <karol.maciaszek@gmail.com>
 # WWW      : http://www.czystybeton.pl/
 #
-# $Id: Makefile 73 2010-06-23 12:51:54Z kharg $
+# $Id$
   
 USBFLAGS=`pkg-config --cflags libusb-1.0`
 USBLIBS=`pkg-config --libs libusb-1.0`
