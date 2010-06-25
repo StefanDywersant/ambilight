@@ -16,11 +16,12 @@
 #include <X11/Xlib.h>
 #include "ambilight.h"
 #include "usb.h"
-#include "xscreenshot.h"
+#include "x11grab.h"
 
 
 void ambilight_init() {
 	usb_open_device();
+	x11grab_init();
 }
 
 
@@ -30,11 +31,11 @@ void ambilight_refresh(unsigned int led_no) {
 
 	color = (color_t*)malloc(sizeof(color_t));
 
-	image = xscreenshot_take_screenshot(150, 150, 100, 100);
+	image = x11grab_get_sub_image(150, 150, 100, 100);
 
-	xscreenshot_mean_color(image, 0, 0, 100, 100, color);
+	x11grab_mean_color(image, 0, 0, 100, 100, color);
 
-	xscreenshot_destroy_image(image);
+	x11grab_destroy_image(image);
 
 	printf("(%03d,%03d,%03d)\n", color->r, color->g, color->b);
 
