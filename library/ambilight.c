@@ -1,8 +1,12 @@
-/*
- * ambilight.c
+/**
+ * Ambilight Project
+ * Ambilight device access library
  *
- *  Created on: 2010-06-25
- *      Author: kharg
+ * Copyright: (c) 2010 by Karol Maciaszek
+ * E-mail   : <karol.maciaszek@gmail.com>
+ * WWW      : http://www.czystybeton.pl/
+ *
+ * $Id$
  */
 
 
