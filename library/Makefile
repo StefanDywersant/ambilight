@@ -1,12 +1,13 @@
-# Ambilight
-# Aktywne podświetlenie monitora.
+# Ambilight Project
+# Ambilight device access library
 #
 # Copyright: (c) 2010 by Karol Maciaszek
 # E-mail   : <karol.maciaszek@gmail.com>
 # WWW      : http://www.czystybeton.pl/
 #
 # $Id$
-  
+
+
 USBFLAGS=`pkg-config --cflags libusb-1.0`
 USBLIBS=`pkg-config --libs libusb-1.0`
 X11LIBS=`pkg-config --libs x11`

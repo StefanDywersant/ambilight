@@ -1,3 +1,15 @@
+/**
+ * Ambilight Project
+ * Ambilight device access library
+ *
+ * Copyright: (c) 2010 by Karol Maciaszek
+ * E-mail   : <karol.maciaszek@gmail.com>
+ * WWW      : http://www.czystybeton.pl/
+ *
+ * $Id$
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 #include <libusb-1.0/libusb.h>

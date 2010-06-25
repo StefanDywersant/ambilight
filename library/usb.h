@@ -1,9 +1,14 @@
-/*
- * usb.h
+/**
+ * Ambilight Project
+ * Ambilight device access library
  *
- *  Created on: 2010-06-24
- *      Author: kharg
+ * Copyright: (c) 2010 by Karol Maciaszek
+ * E-mail   : <karol.maciaszek@gmail.com>
+ * WWW      : http://www.czystybeton.pl/
+ *
+ * $Id$
  */
+
 
 #ifndef USB_H_
 #define USB_H_
