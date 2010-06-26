@@ -23,29 +23,15 @@ rgbled_colour* colour;
 
 
 usbMsgLen_t usbFunctionSetup(uchar data[8]) {
-	usbRequest_t* request = (usbRequest_t *)data;
+	usbRequest_t* request = (usbRequest_t*)data;
 
-	if (request->bRequest == 0x04)
-		return USB_NO_MSG;
+	colour->r = request->wValue.bytes[0];
+	colour->g = request->wValue.bytes[1];
+	colour->b = request->wIndex.bytes[0];
 
-    return 0;
-}
+	rgbled_set_colour(request->bRequest, colour);
 
-
-uchar usbFunctionRead(uchar *data, uchar len) {
-	PRINTF("usbRead\n");
 	return 0;
-}
-
-
-uchar usbFunctionWrite(uchar *data, uchar len) {
-	colour->r = data[0];
-	colour->g = data[1];
-	colour->b = data[2];
-
-	rgbled_set_colour(0, colour);
-
-	return len;
 }
 
 
@@ -54,27 +40,27 @@ int main(void) {
 
 	debug_init();
 
-	PRINTF("\nAmbilight - firmware\n");
+	PRINTF("\nAmbilight device\n");
 
-	sei();
-
-	PRINTF("Inicjalizacja USB... ");
+	PRINTF("Initializing USB... ");
 	usbInit();
 	usbDeviceDisconnect();
 	_delay_ms(250);
 	usbDeviceConnect();
-	PRINTF("ok\n");
+	PRINTF("done\n");
 
-	PRINTF("Inicjalizacja bufora led... ");
+	sei();
+
+	PRINTF("Initializing led buffer... ");
 	rgbled_init(&usbPoll);
-	PRINTF("ok\n");
+	PRINTF("done\n");
 
 	colour->r = 0;
 	colour->g = 0;
 	colour->b = 0;
 	rgbled_set_colour(0, colour);
 
-	PRINTF("Petla glowna\n");
+	PRINTF("Entering main loop...\n");
 
 	while (1)
 		rgbled_refresh();

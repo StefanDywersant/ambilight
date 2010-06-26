@@ -139,12 +139,16 @@ void rgbled_set_colour(uint8_t led_no, rgbled_colour* colour) {
 
 void rgbled_refresh() {
 	uint8_t i;
+	uint8_t data_pin;
+	uint8_t addr_pin;
+	uint8_t led_no;
+	uint8_t comp_no;
 
 	for (i = 0; i < FILL_LEVELS; i++) {
-		uint8_t data_pin = 0;
-		uint8_t addr_pin = 0;
-		uint8_t led_no = 0;
-		uint8_t comp_no = 0;
+		data_pin = 0;
+		addr_pin = 0;
+		led_no = 0;
+		comp_no = 0;
 		while (1) {
 			if (data_pin == 8 || (addr_pin * 8 + data_pin) == LEDS_COUNT * 3) {
 				set_clock(addr_pin);
