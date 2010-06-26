@@ -20,7 +20,7 @@ LDCONFIG=/sbin/ldconfig
 CFLAGS=-O -Wall -fPIC $(USBFLAGS)
 LIBS=$(USBLIBS) $(X11LIBS)
 
-OBJS=ambilight.o usb.o x11grab.o
+OBJS=ambilight.o usb.o x11capture.o
 
 LIBNAME=libambilight.so
 VERSION=1.0.0

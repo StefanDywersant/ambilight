@@ -14,16 +14,30 @@
 #define AMBILIGHT_H_
 
 
+struct ambilight_config {
+	unsigned int frequency;
+	unsigned char leds_top;
+	unsigned char leds_bottom;
+	unsigned char leds_left;
+	unsigned char leds_right;
+	unsigned int edge_thickness;
+	unsigned int margin_top;
+	unsigned int margin_bottom;
+	unsigned int margin_left;
+	unsigned int margin_right;
+};
+
+
 typedef struct {
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
-} color_t;
+} ambilight_led;
 
 
-void ambilight_init();
+void ambilight_init(struct ambilight_config* cfg);
 
-void ambilight_refresh(unsigned int led_no);
+void ambilight_refresh(void);
 
 
 #endif /* AMBILIGHT_H_ */

@@ -27,6 +27,39 @@
 static libusb_device_handle* dev = NULL;
 
 
+static int _transmit(unsigned char led_no, unsigned char* data) {
+	if (dev == NULL)
+		return USB_ERROR_NO_DEVICE;
+
+	int ret = libusb_control_transfer(
+			dev,
+			LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_ENDPOINT_OUT,
+			led_no,
+			(uint16_t)(data[0] | data[1] << 8),
+			(uint16_t)data[2],
+			NULL,
+			0,
+			10000
+		);
+
+	if (ret > 0)
+		return USB_OK;
+
+	switch(ret) {
+	case LIBUSB_ERROR_NO_DEVICE:
+		usb_close_device();
+		return USB_ERROR_NO_DEVICE;
+	case LIBUSB_ERROR_PIPE:
+		return USB_ERROR_PIPE;
+	case LIBUSB_ERROR_TIMEOUT:
+		usb_close_device();
+		return USB_ERROR_TIMEOUT;
+	default:
+		return USB_ERROR;
+	}
+}
+
+
 int usb_open_device(void) {
 	libusb_device** devices;
 	ssize_t devices_cnt;
@@ -92,31 +125,13 @@ int usb_open_device(void) {
 }
 
 
-int usb_transmit(unsigned char* payload) {
-	if (dev == NULL)
-		return USB_ERROR_NO_DEVICE;
-
-	int ret = libusb_control_transfer(dev, LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_ENDPOINT_OUT, CMD_UPDATE_LEDS, 0 ,0, payload, 3, 10000);
-
-	if (ret > 0)
-		return USB_OK;
-
-	switch(ret) {
-	case LIBUSB_ERROR_NO_DEVICE:
-		usb_close_device();
-		return USB_ERROR_NO_DEVICE;
-	case LIBUSB_ERROR_PIPE:
-		return USB_ERROR_PIPE;
-	case LIBUSB_ERROR_TIMEOUT:
-		usb_close_device();
-		return USB_ERROR_TIMEOUT;
-	default:
-		return USB_ERROR;
-	}
-}
-
-
 void usb_close_device() {
 	libusb_close(dev);
 	libusb_exit(NULL);
+}
+
+
+int usb_transmit_single(unsigned char led_no, ambilight_led* led) {
+	printf("%03d %03d %03d\n", led->r, led->g, led->b);
+	return _transmit(led_no, (unsigned char*)led);
 }
