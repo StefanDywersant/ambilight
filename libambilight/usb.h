@@ -13,6 +13,8 @@
 #ifndef USB_H_
 #define USB_H_
 
+#include "ambilight.h"
+
 
 enum usb_error {
 	USB_OK = 0,
@@ -26,9 +28,10 @@ enum usb_error {
 
 int usb_open_device();
 
-int usb_transmit(unsigned char* payload);
-
 void usb_close_device();
 
+int usb_reset(void);
+
+int usb_transmit_single(unsigned char led_no, ambilight_led* led);
 
 #endif /* USB_H_ */

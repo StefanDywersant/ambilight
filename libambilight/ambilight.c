@@ -11,41 +11,36 @@
 
 
 #include <stdint.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
+
 #include "ambilight.h"
 #include "usb.h"
-#include "x11grab.h"
+#include "x11capture.h"
 
 
-void ambilight_init() {
+static struct ambilight_config* config;
+
+
+void ambilight_init(struct ambilight_config* cfg) {
 	usb_open_device();
 
-	struct x11grab_config config;
-	config.edge_thickness = 30;
-	config.margin_bottom = 0;
-	config.margin_left = 0;
-	config.margin_right = 0;
-	config.margin_top = 0;
+	config = cfg;
 
-	x11grab_init(&config);
+	x11capture_init(config);
 }
 
 
-void ambilight_refresh(unsigned int led_no) {
-	XImage* image;
-//	color_t* color;
+void ambilight_refresh(void) {
+	x11capture_refresh();
 
-//	color = (color_t*)malloc(sizeof(color_t));
+	unsigned char i;
+	for (i = 0; i < (config->leds_top + config->leds_left + config->leds_bottom + config->leds_right); i++) {
+		usb_transmit_single(i, x11capture_get_led(i));
+		usleep(1000000 / (config->frequency * (config->leds_top + config->leds_left + config->leds_bottom + config->leds_right)));
+	}
 
-	image = x11grab_get_sub_image(0, 0, 1920, 30);
 
-//	x11grab_mean_color(image, 0, 0, 100, 100, color);
-
-//	printf("(%03d,%03d,%03d)\n", color->r, color->g, color->b);
-
-//	usb_transmit((uint8_t*)color);
-
-//	free(color);
 }
