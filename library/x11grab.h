@@ -17,6 +17,15 @@
 #include "ambilight.h"
 
 
+struct x11grab_config {
+	int edge_thickness;
+	int margin_top;
+	int margin_bottom;
+	int margin_left;
+	int margin_right;
+};
+
+
 enum x11grab_error {
 	X11GRAB_OK = 0,
 	X11GRAB_CANT_OPEN_DISPLAY = -1,
@@ -24,15 +33,13 @@ enum x11grab_error {
 };
 
 
-int x11grab_init(void);
+int x11grab_init(struct x11grab_config* cfg);
 
 int x11grab_close(void);
 
 XImage* x11grab_get_sub_image(int x, int y, unsigned int w, unsigned int h);
 
 void x11grab_mean_color(XImage* image, unsigned int x, unsigned int y, unsigned int w, unsigned int h, color_t* color);
-
-void x11grab_destroy_image(XImage* image);
 
 
 #endif /* XSCREENSHOT_H_ */
