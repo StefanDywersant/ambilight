@@ -9,19 +9,25 @@
 
   
 CC=g++
-CFLAGS=-c -Wall -I/usr/include
-LDFLAGS=-lQtGui -lQtCore
-SOURCES=main.cpp qambilight.cpp
+MOC=/usr/bin/moc
+CFLAGS=-c -Wall -I/usr/include -I/usr/local/include
+LDFLAGS=-lQtGui -lQtCore -lkdeui -lambilight
+SOURCES=main.cpp qambilight.cpp $(MOC_SOURCES)
 OBJECTS=$(SOURCES:.cpp=.o)
+MOC_SOURCES=$(patsubst %.h, moc_%.cpp, $(shell grep -l Q_OBJECT *.h))
+
 EXECUTABLE=qambilight
 
 all: $(SOURCES) $(EXECUTABLE)
 	
-$(EXECUTABLE): $(OBJECTS) 
+$(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
 
+moc_%.cpp: %.h
+	$(MOC) $< -o $@
+
 clean:
-	rm -rf $(OBJECTS) $(EXECUTABLE)
+	rm -rf $(OBJECTS) $(MOC_SOURCES) $(EXECUTABLE)
