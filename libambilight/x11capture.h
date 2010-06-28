@@ -14,14 +14,9 @@
 #define X11CAPTURE_H_
 
 
+#include <X11/Xlib.h>
+
 #include "ambilight.h"
-
-
-enum x11capture_error {
-	X11CAPTURE_OK = 0,
-	X11CAPTURE_CANT_OPEN_DISPLAY = -1,
-	X11CAPTURE_NOT_INITIALIZED = -2
-};
 
 
 int x11capture_init(struct ambilight_config* cfg);
@@ -31,6 +26,8 @@ int x11capture_close(void);
 void x11capture_refresh(void);
 
 ambilight_led* x11capture_get_led(unsigned char led_no);
+
+int x11capture_get_screenshot(XImage* screenshot);
 
 
 #endif /* X11CAPTURE_H_ */

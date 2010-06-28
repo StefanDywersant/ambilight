@@ -24,12 +24,20 @@
 static struct ambilight_config* config;
 
 
-void ambilight_init(struct ambilight_config* cfg) {
-	usb_open_device();
-
+int ambilight_configure(struct ambilight_config* cfg) {
 	config = cfg;
+	x11capture_close();
+	return x11capture_init(config);
+}
 
-	x11capture_init(config);
+
+int ambilight_open_device(void) {
+	return usb_open_device();
+}
+
+
+void ambilight_close_device(void) {
+	usb_close_device();
 }
 
 
@@ -41,6 +49,9 @@ void ambilight_refresh(void) {
 		usb_transmit_single(i, x11capture_get_led(i));
 		usleep(1000000 / (config->frequency * (config->leds_top + config->leds_left + config->leds_bottom + config->leds_right)));
 	}
+}
 
 
+int ambilight_get_screenshot(XImage* screenshot) {
+	return x11capture_get_screenshot(screenshot);
 }

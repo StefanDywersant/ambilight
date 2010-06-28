@@ -16,16 +16,6 @@
 #include "ambilight.h"
 
 
-enum usb_error {
-	USB_OK = 0,
-	USB_ERROR_NO_DEVICE = -1,
-	USB_ERROR_PIPE = -2,
-	USB_ERROR_TIMEOUT = -3,
-	USB_ERROR_DEVICE_OPENED = -4,
-	USB_ERROR = -99
-};
-
-
 int usb_open_device();
 
 void usb_close_device();
