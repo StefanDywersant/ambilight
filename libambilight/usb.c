@@ -29,7 +29,7 @@ static libusb_device_handle* dev = NULL;
 
 static int _transmit(unsigned char led_no, unsigned char* data) {
 	if (dev == NULL)
-		return USB_ERROR_NO_DEVICE;
+		return AMBILIGHT_NO_DEVICE;
 
 	int ret = libusb_control_transfer(
 			dev,
@@ -43,19 +43,17 @@ static int _transmit(unsigned char led_no, unsigned char* data) {
 		);
 
 	if (ret > 0)
-		return USB_OK;
+		return AMBILIGHT_OK;
 
 	switch(ret) {
 	case LIBUSB_ERROR_NO_DEVICE:
 		usb_close_device();
-		return USB_ERROR_NO_DEVICE;
-	case LIBUSB_ERROR_PIPE:
-		return USB_ERROR_PIPE;
+		return AMBILIGHT_NO_DEVICE;
 	case LIBUSB_ERROR_TIMEOUT:
 		usb_close_device();
-		return USB_ERROR_TIMEOUT;
+		return AMBILIGHT_DEVICE_TIMEOUT;
 	default:
-		return USB_ERROR;
+		return AMBILIGHT_DEVICE_ERROR;
 	}
 }
 
@@ -66,7 +64,7 @@ int usb_open_device(void) {
 	uint16_t i;
 
 	if (dev != NULL)
-		return USB_ERROR_DEVICE_OPENED;
+		return AMBILIGHT_DEVICE_ERROR;
 
 	libusb_init(NULL);
 
@@ -116,12 +114,12 @@ int usb_open_device(void) {
 
 		dev = tmp_dev_handle;
 		libusb_free_device_list(devices, devices_cnt);
-		return USB_OK;
+		return AMBILIGHT_OK;
 	}
 
 	// device not found
 	libusb_free_device_list(devices, devices_cnt);
-	return USB_ERROR_NO_DEVICE;
+	return AMBILIGHT_NO_DEVICE;
 }
 
 
@@ -132,6 +130,5 @@ void usb_close_device() {
 
 
 int usb_transmit_single(unsigned char led_no, ambilight_led* led) {
-	printf("%03d %03d %03d\n", led->r, led->g, led->b);
 	return _transmit(led_no, (unsigned char*)led);
 }

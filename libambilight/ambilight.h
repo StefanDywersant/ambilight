@@ -13,6 +13,27 @@
 #ifndef AMBILIGHT_H_
 #define AMBILIGHT_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
+#include <X11/Xlib.h>
+
+
+enum ambilight_error {
+	AMBILIGHT_OK = 0,
+	AMBILIGHT_ERROR = 1,
+
+	AMBILIGHT_NO_DEVICE = 2,
+	AMBILIGHT_DEVICE_TIMEOUT = 4,
+	AMBILIGHT_DEVICE_NOT_INITIALIZED = 8,
+	AMBILIGHT_DEVICE_ERROR = 16,
+
+	AMBILIGHT_CANT_OPEN_DISPLAY = 32,
+	AMBILIGHT_DISPLAY_NOT_INITIALIZED = 64
+};
+
 
 struct ambilight_config {
 	unsigned int frequency;
@@ -35,9 +56,19 @@ typedef struct {
 } ambilight_led;
 
 
-void ambilight_init(struct ambilight_config* cfg);
+int ambilight_configure(struct ambilight_config* cfg);
+
+int ambilight_open_device(void);
+
+void ambilight_close_device(void);
 
 void ambilight_refresh(void);
 
+int ambilight_get_screenshot(XImage* screenshot);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* AMBILIGHT_H_ */

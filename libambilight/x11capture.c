@@ -218,7 +218,7 @@ int x11capture_init(struct ambilight_config* cfg) {
 	display = XOpenDisplay(NULL);
 
 	if (display == NULL)
-		return X11CAPTURE_CANT_OPEN_DISPLAY;
+		return AMBILIGHT_DISPLAY_NOT_INITIALIZED;
 
 	scr_size.width = XDisplayWidth(display, 0);
 	scr_size.height = XDisplayHeight(display, 0);
@@ -230,13 +230,13 @@ int x11capture_init(struct ambilight_config* cfg) {
 
 	_init_areas();
 
-	return X11CAPTURE_OK;
+	return AMBILIGHT_OK;
 }
 
 
 int x11capture_close(void) {
 	if (display == NULL)
-		return X11CAPTURE_NOT_INITIALIZED;
+		return AMBILIGHT_DISPLAY_NOT_INITIALIZED;
 
 	// close display pointer
 	XCloseDisplay(display);
@@ -257,7 +257,7 @@ int x11capture_close(void) {
 	for (i = 0; i < config.leds_bottom + config.leds_left + config.leds_right + config.leds_top; i++)
 		free(&leds[i]);
 
-	return X11CAPTURE_OK;
+	return AMBILIGHT_OK;
 }
 
 
@@ -274,4 +274,23 @@ void x11capture_refresh(void) {
 
 ambilight_led* x11capture_get_led(unsigned char led_no) {
 	return &leds[led_no];
+}
+
+
+int x11capture_get_screenshot(XImage* screenshot) {
+	if (display == NULL)
+		return AMBILIGHT_DISPLAY_NOT_INITIALIZED;
+
+	screenshot = XGetImage(
+			display,
+			XDefaultRootWindow(display),
+			0,
+			0,
+			scr_size.width,
+			scr_size.height,
+			AllPlanes,
+			ZPixmap
+		);
+
+	return AMBILIGHT_OK;
 }
