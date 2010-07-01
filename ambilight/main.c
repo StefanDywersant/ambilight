@@ -20,17 +20,19 @@ int main(int argc, char** argv) {
 	config.margin_bottom = 0;
 	config.margin_left = 0;
 	config.margin_right = 0;
-	config.margin_top = 0;
+	config.margin_top = 200;
 	config.leds_bottom = 6;
 	config.leds_left = 4;
 	config.leds_right = 4;
 	config.leds_top = 6;
 	config.frequency = 25;
 
-	ambilight_init(&config);
+	ambilight_open_device();
+	ambilight_configure(&config);
 
 	while (1)
 		ambilight_refresh();
 
 	return 0;
 }
+
