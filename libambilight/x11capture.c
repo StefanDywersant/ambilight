@@ -6,7 +6,7 @@
  * E-mail   : <karol.maciaszek@gmail.com>
  * WWW      : http://www.czystybeton.pl/
  *
- * $Id: x11grab.c 7 2010-06-26 06:40:45Z kharg $
+ * $Id$
  */
 
 
@@ -189,20 +189,14 @@ static void _calculate_mean(_area* area, ambilight_led* led) {
 	long g = 0;
 	long b = 0;
 
-//	printf("(x,y)=(%d,%d) (w,h)=(%d,%d) (iw,ih)=(%d,%d)\n", area->x, area->y, area->w, area->h, (*area->image)->width, (*area->image)->height);
-
 	for (x = area->x; x < area->x + area->w; x++) {
 		for (y = area->y; y < area->y + area->h; y++) {
 			unsigned long color = (*area->image)->f.get_pixel(*area->image, x, y);
-//			printf("%dx%d ", x, y);
-//			unsigned long color = 0xf000f0;
 			r += (unsigned char)(color >> 16);
 			g += (unsigned char)(color >> 8);
 			b += (unsigned char)(color);
 		}
-//		printf("\n");
 	}
-//	printf("\n\n");
 
 	led->r = (unsigned char)(r / (area->w * area->h));
 	led->g = (unsigned char)(g / (area->w * area->h));

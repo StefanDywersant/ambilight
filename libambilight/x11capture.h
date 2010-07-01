@@ -6,7 +6,7 @@
  * E-mail   : <karol.maciaszek@gmail.com>
  * WWW      : http://www.czystybeton.pl/
  *
- * $Id: x11grab.h 7 2010-06-26 06:40:45Z kharg $
+ * $Id$
  */
 
 
