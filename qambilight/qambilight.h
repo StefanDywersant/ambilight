@@ -17,6 +17,8 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
 #include <QtGui/QSystemTrayIcon>
+#include <QtGui/QSlider>
+#include <QtGui/QSpinBox>
 #include <QtGui/QWidget>
 #include <ambilight.h>
 #include <kled.h>
@@ -29,22 +31,30 @@ public:
 	~QAmbilight();
 
 	QSystemTrayIcon* trayIcon;
-	QGroupBox* statusBox;
-	KLed* deviceLed;
-	QLabel* deviceLedLabel;
-	KLed* x11Led;
-	QLabel* x11LedLabel;
-	QPushButton* button;
+	QSlider* topSlider;
+	QSlider* leftSlider;
+	QSlider* bottomSlider;
+	QSlider* rightSlider;
+	QFrame* screenshotFrame;
+	QLabel* screenshotLabel;
+	QFrame* line;
+	KLed* hwStatusLed;
+	QLabel* hwStatusLabel;
+	QLabel* thicknessLabel;
+	QSlider* thicknessSlider;
+	QLabel* frequencyLabel;
+	QSpinBox* frequencySpinBox;
+	QPushButton* startStopButton;
+	QPushButton* hideButton;
 
-public slots:
-	void refreshAmbilight(void);
 
 protected:
 	void changeEvent(QEvent* e);
 	void closeAmbilight(void);
 	void initAmbilight(void);
 	void retranslateUi(void);
-	void setupUi(void);
+	void setupWidgets(void);
+	void setupSize(unsigned int height);
 
 	struct ambilight_config config;
 
