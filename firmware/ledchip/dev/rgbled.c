@@ -35,7 +35,6 @@ typedef struct {
 
 static led_state* led_states;
 
-static void (*refresh_func)(void);
 
 static void set_data_pin(uint8_t data_pin, uint8_t value) {
 	switch (data_pin) {
@@ -164,14 +163,12 @@ void rgbled_refresh() {
 			if (led_no >= LEDS_COUNT)
 				break;
 
-			refresh_func();
-
 			if (comp_no == 0)
-				set_data_pin(data_pin, i >= led_states[led_no].r_cycles);
+				set_data_pin(data_pin, i <= led_states[led_no].r_cycles);
 			else if (comp_no == 1)
-				set_data_pin(data_pin, i >= led_states[led_no].g_cycles);
+				set_data_pin(data_pin, i <= led_states[led_no].g_cycles);
 			else
-				set_data_pin(data_pin, i >= led_states[led_no].b_cycles);
+				set_data_pin(data_pin, i <= led_states[led_no].b_cycles);
 
 			data_pin++;
 			comp_no++;
@@ -180,9 +177,7 @@ void rgbled_refresh() {
 }
 
 
-void rgbled_init(void (*func)(void)) {
-	refresh_func = func;
-
+void rgbled_init(void) {
 	led_states = (led_state*)malloc(LEDS_COUNT * sizeof(led_state));
 
 	DDRPORT(A0_PORT) |= 0x01 << A0_PIN;
