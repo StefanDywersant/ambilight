@@ -24,7 +24,7 @@ void rgbled_set_colour(uint8_t led_no, rgbled_colour* colour);
 
 void rgbled_refresh();
 
-void rgbled_init(void (*func)(void));
+void rgbled_init(void);
 
 
 #endif /* RGBLED_H_ */

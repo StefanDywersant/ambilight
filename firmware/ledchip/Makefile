@@ -10,15 +10,15 @@
 #
 
 CC      = avr-gcc
-DEVICE  = atmega32
-F_CPU   = 20000000
+DEVICE  = atmega8
+F_CPU   = 1000000
 FUSE_L  = 0xEF
 FUSE_H  = 0xC9
 PROG_ID = bsd
 AVRDUDE = avrdude -c $(PROG_ID) -p $(DEVICE)
 
-CFLAGS  = -I. -Iconfig -Idev -Ilib/io -Ilib/io/usbdrv -Ilib/util -DDEBUG=1
-OBJECTS = main.o dev/rgbled.o lib/io/usart.o lib/io/usbdrv/usbdrv.o lib/io/usbdrv/usbdrvasm.o lib/util/debug.o
+CFLAGS  = -I. -Iconfig -Idev -I../lib/io -I../lib/util -DDEBUG=1
+OBJECTS = main.o dev/rgbled.o ../lib/io/usart.o ../lib/util/debug.o
 
 COMPILE = $(CC) -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 
