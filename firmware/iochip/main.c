@@ -9,28 +9,37 @@
  * $Id$
  */
 
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
 
+#include <debug.h>
+#include <hwspi.h>
 #include <usbdrv.h>
-#include <softspi.h>
 
 
 usbMsgLen_t usbFunctionSetup(uchar data[8]) {
 	usbRequest_t* request = (usbRequest_t*)data;
+	uint8_t dupsko;
 
-	// begin spi transaction
-	softspi_begin();
+	hwspi_begin();
 
-	softspi_write_data(1, &request->bRequest);	// led no
-	softspi_write_data(1, &request->wValue.bytes[0]); // red
-	softspi_write_data(1, &request->wValue.bytes[1]); // green
-	softspi_write_data(1, &request->wIndex.bytes[0]); // blue
+	dupsko = hwspi_read_write_byte(request->wValue.bytes[0]); // red
+	PRINTF("%02x", dupsko);
 
-	softspi_end();
-	// end spi transaction
+	dupsko = hwspi_read_write_byte(request->wValue.bytes[1]); // green
+	PRINTF("%02x", dupsko);
+
+	dupsko = hwspi_read_write_byte(request->wIndex.bytes[0]); // blue
+	PRINTF("%02x", dupsko);
+
+	dupsko = hwspi_read_write_byte(request->bRequest);	// led no
+	PRINTF("%02x\n", dupsko);
+
+	hwspi_end();
 
 	return 0;
 }
@@ -38,17 +47,22 @@ usbMsgLen_t usbFunctionSetup(uchar data[8]) {
 
 int main(void) {
 
+	debug_init();
+
+	PRINTF("Ambilight IOChip\n");
+
 	usbInit();
 	usbDeviceDisconnect();
-	_delay_ms(250);
+	_delay_ms(1000);
 	usbDeviceConnect();
 
-	softspi_init();
+	hwspi_init_master();
 
 	sei();
 
-	while (1)
+	while (1) {
 		usbPoll();
+	}
 
 	return 0;
 }

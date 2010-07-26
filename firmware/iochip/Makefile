@@ -10,15 +10,15 @@
 #
 
 CC      = avr-gcc
-DEVICE  = attiny45
-F_CPU   = 16000000
-FUSE_L  = 0xc1
-FUSE_H  = 0xdf
+DEVICE  = atmega8
+F_CPU   = 12000000
+FUSE_L  = 0xEF
+FUSE_H  = 0xC9
 PROG_ID = bsd
 AVRDUDE = avrdude -c $(PROG_ID) -p $(DEVICE)
 
-CFLAGS  = -I. -Iconfig -I../lib/io -I../lib/io/usbdrv
-OBJECTS = main.o ../lib/io/softspi.o ../lib/io/usbdrv/usbdrv.o ../lib/io/usbdrv/usbdrvasm.o
+CFLAGS  = -I. -Iconfig -I../lib/io -I../lib/io/usbdrv -I../lib/util -DDEBUG=1
+OBJECTS = main.o ../lib/io/hwspi.o ../lib/io/usbdrv/usbdrv.o ../lib/io/usbdrv/usbdrvasm.o ../lib/io/usart.o ../lib/util/debug.o
 
 COMPILE = $(CC) -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 

@@ -16,9 +16,37 @@
 
 #include "debug.h"
 #include "rgbled.h"
+#include "hwspi.h"
 
 
-rgbled_colour* colour;
+/**
+ * Structure containing current led color.
+ */
+static rgbled_colour* colour;
+
+
+/**
+ * Byte number in packet received through SPI from IOChip.
+ */
+static uint8_t byte_no = 0;
+
+
+uint8_t rx_byte(uint8_t byte) {
+	switch (byte_no) {
+	case 0x00:
+		colour->r = byte;
+		return ++byte_no;
+	case 0x01:
+		colour->g = byte;
+		return ++byte_no;
+	case 0x02:
+		colour->b = byte;
+		return ++byte_no;
+	default:
+		rgbled_set_colour(byte, colour);
+		return byte_no = 0x00;
+	}
+}
 
 
 int main(void) {
@@ -30,14 +58,13 @@ int main(void) {
 
 	sei();
 
+	PRINTF("Initializing SPI... ");
+	hwspi_init_slave(&rx_byte);
+	PRINTF("done\n");
+
 	PRINTF("Initializing led buffer... ");
 	rgbled_init();
 	PRINTF("done\n");
-
-	colour->r = 0;
-	colour->g = 0;
-	colour->b = 0;
-	rgbled_set_colour(0, colour);
 
 	PRINTF("Entering main loop...\n");
 
