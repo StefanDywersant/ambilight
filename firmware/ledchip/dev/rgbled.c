@@ -116,14 +116,14 @@ static void set_clock(uint8_t addr_pin) {
 		OUTPORT(A5_PORT) |= 0x01 << A5_PIN;
 		OUTPORT(A5_PORT) &= ~(0x01 << A5_PIN);
 		break;
-	case 6:
-		OUTPORT(A6_PORT) |= 0x01 << A6_PIN;
-		OUTPORT(A6_PORT) &= ~(0x01 << A6_PIN);
-		break;
-	case 7:
-		OUTPORT(A7_PORT) |= 0x01 << A7_PIN;
-		OUTPORT(A7_PORT) &= ~(0x01 << A7_PIN);
-		break;
+//	case 6:
+//		OUTPORT(A6_PORT) |= 0x01 << A6_PIN;
+//		OUTPORT(A6_PORT) &= ~(0x01 << A6_PIN);
+//		break;
+//	case 7:
+//		OUTPORT(A7_PORT) |= 0x01 << A7_PIN;
+//		OUTPORT(A7_PORT) &= ~(0x01 << A7_PIN);
+//		break;
 	}
 
 }
@@ -192,10 +192,10 @@ void rgbled_init(void) {
 	OUTPORT(A4_PORT) &= ~(0x01 << A4_PIN);
 	DDRPORT(A5_PORT) |= 0x01 << A5_PIN;
 	OUTPORT(A5_PORT) &= ~(0x01 << A5_PIN);
-	DDRPORT(A6_PORT) |= 0x01 << A6_PIN;
-	OUTPORT(A6_PORT) &= ~(0x01 << A6_PIN);
-	DDRPORT(A7_PORT) |= 0x01 << A7_PIN;
-	OUTPORT(A7_PORT) &= ~(0x01 << A7_PIN);
+//	DDRPORT(A6_PORT) |= 0x01 << A6_PIN;
+//	OUTPORT(A6_PORT) &= ~(0x01 << A6_PIN);
+//	DDRPORT(A7_PORT) |= 0x01 << A7_PIN;
+//	OUTPORT(A7_PORT) &= ~(0x01 << A7_PIN);
 	DDRPORT(D0_PORT) |= 0x01 << D0_PIN;
 	DDRPORT(D1_PORT) |= 0x01 << D1_PIN;
 	DDRPORT(D2_PORT) |= 0x01 << D2_PIN;

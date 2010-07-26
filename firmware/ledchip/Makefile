@@ -11,14 +11,14 @@
 
 CC      = avr-gcc
 DEVICE  = atmega8
-F_CPU   = 1000000
+F_CPU   = 12000000
 FUSE_L  = 0xEF
 FUSE_H  = 0xC9
 PROG_ID = bsd
 AVRDUDE = avrdude -c $(PROG_ID) -p $(DEVICE)
 
 CFLAGS  = -I. -Iconfig -Idev -I../lib/io -I../lib/util -DDEBUG=1
-OBJECTS = main.o dev/rgbled.o ../lib/io/usart.o ../lib/util/debug.o
+OBJECTS = main.o dev/rgbled.o ../lib/io/usart.o ../lib/util/debug.o ../lib/io/hwspi.o
 
 COMPILE = $(CC) -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 

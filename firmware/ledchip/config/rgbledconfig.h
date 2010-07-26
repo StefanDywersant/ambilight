@@ -15,7 +15,7 @@
 
 #include <avr/io.h>
 
-#define LEDS_COUNT		20		// liczba diód
+#define LEDS_COUNT		15		// liczba diód
 #define FILL_LEVELS		40		// liczba poziomów wypełnienia poszczególnej składowej
 
 // mapa portów/pinów dla linii danych
