@@ -16,7 +16,7 @@
 
 #include "debug.h"
 #include "rgbled.h"
-#include "hwspi.h"
+#include "spi.h"
 
 
 /**
@@ -56,10 +56,12 @@ int main(void) {
 
 	PRINTF("\nAmbilight device\n");
 
+	PRINTF("Enabling interrupts... ");
 	sei();
+	PRINTF("done");
 
 	PRINTF("Initializing SPI... ");
-	hwspi_init_slave(&rx_byte);
+	spi_init_slave(&rx_byte);
 	PRINTF("done\n");
 
 	PRINTF("Initializing led buffer... ");

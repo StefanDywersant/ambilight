@@ -18,7 +18,7 @@ PROG_ID = bsd
 AVRDUDE = avrdude -c $(PROG_ID) -p $(DEVICE)
 
 CFLAGS  = -I. -Iconfig -I../lib/io -I../lib/io/usbdrv -I../lib/util -DDEBUG=1
-OBJECTS = main.o ../lib/io/hwspi.o ../lib/io/usbdrv/usbdrv.o ../lib/io/usbdrv/usbdrvasm.o ../lib/io/usart.o ../lib/util/debug.o
+OBJECTS = main.o ../lib/io/spi.o ../lib/io/usbdrv/usbdrv.o ../lib/io/usbdrv/usbdrvasm.o ../lib/io/usart.o ../lib/util/debug.o
 
 COMPILE = $(CC) -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 
