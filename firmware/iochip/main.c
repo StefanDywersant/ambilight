@@ -17,7 +17,7 @@
 #include <util/delay.h>
 
 #include <debug.h>
-#include <hwspi.h>
+#include <spi.h>
 #include <usbdrv.h>
 
 
@@ -25,21 +25,21 @@ usbMsgLen_t usbFunctionSetup(uchar data[8]) {
 	usbRequest_t* request = (usbRequest_t*)data;
 	uint8_t dupsko;
 
-	hwspi_begin();
+	spi_begin();
 
-	dupsko = hwspi_read_write_byte(request->wValue.bytes[0]); // red
+	dupsko = spi_read_write_byte(request->wValue.bytes[0]); // red
 	PRINTF("%02x", dupsko);
 
-	dupsko = hwspi_read_write_byte(request->wValue.bytes[1]); // green
+	dupsko = spi_read_write_byte(request->wValue.bytes[1]); // green
 	PRINTF("%02x", dupsko);
 
-	dupsko = hwspi_read_write_byte(request->wIndex.bytes[0]); // blue
+	dupsko = spi_read_write_byte(request->wIndex.bytes[0]); // blue
 	PRINTF("%02x", dupsko);
 
-	dupsko = hwspi_read_write_byte(request->bRequest);	// led no
+	dupsko = spi_read_write_byte(request->bRequest);	// led no
 	PRINTF("%02x\n", dupsko);
 
-	hwspi_end();
+	spi_end();
 
 	return 0;
 }
@@ -49,20 +49,25 @@ int main(void) {
 
 	debug_init();
 
-	PRINTF("Ambilight IOChip\n");
+	PRINTF("\nAmbilight IOChip\n");
 
+	PRINTF("Initializing USB... ");
 	usbInit();
 	usbDeviceDisconnect();
-	_delay_ms(1000);
+	_delay_ms(250);
 	usbDeviceConnect();
+	PRINTF("done\n");
 
-	hwspi_init_master();
+	PRINTF("Initializing SPI... ")
+	spi_init_master();
+	PRINTF("done\n");
 
+	PRINTF("Enabling interrupts... ");
 	sei();
+	PRINTF("done\n");
 
-	while (1) {
+	while (1)
 		usbPoll();
-	}
 
 	return 0;
 }

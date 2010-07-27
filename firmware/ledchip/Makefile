@@ -18,7 +18,7 @@ PROG_ID = bsd
 AVRDUDE = avrdude -c $(PROG_ID) -p $(DEVICE)
 
 CFLAGS  = -I. -Iconfig -Idev -I../lib/io -I../lib/util -DDEBUG=1
-OBJECTS = main.o dev/rgbled.o ../lib/io/usart.o ../lib/util/debug.o ../lib/io/hwspi.o
+OBJECTS = main.o dev/rgbled.o ../lib/io/spi.o ../lib/io/usart.o ../lib/util/debug.o
 
 COMPILE = $(CC) -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 

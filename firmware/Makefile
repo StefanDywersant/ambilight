@@ -25,7 +25,7 @@ ioflash:
 	cd iochip && $(MAKE) flash
 
 ledflash:
-	cd led && $(MAKE) flash
+	cd ledchip && $(MAKE) flash
 
 iofuse:
 	cd iochip && $(MAKE) fuse
